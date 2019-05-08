@@ -1,0 +1,47 @@
+﻿<Window x:Class="cs_wpf_test_11.MainWindow"
+        xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+        xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+        xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+        xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+        xmlns:local="clr-namespace:cs_wpf_test_11"
+        mc:Ignorable="d"
+        Title="MainWindow" Height="450" Width="800">
+    <Grid>
+        <DataGrid Name="MyDataGrid" ItemsSource="{Binding Path=MyItems,
+                                RelativeSource={RelativeSource Mode=FindAncestor,
+                                AncestorType={x:Type Window}}}"
+                  AutoGenerateColumns="False">
+            <DataGrid.Columns>
+                <DataGridComboBoxColumn Header="My only column"
+                                        TextBinding="{Binding Value}">
+                    <DataGridComboBoxColumn.ElementStyle>
+                        <Style TargetType="ComboBox">
+                            <Setter Property="ItemsSource" Value="{Binding Path=MyVM.ChildVMCollection,
+                                RelativeSource={RelativeSource Mode=FindAncestor,
+                                AncestorType={x:Type Window}}}"/>
+                        </Style>
+                    </DataGridComboBoxColumn.ElementStyle>
+                    <DataGridComboBoxColumn.EditingElementStyle>
+                        <Style TargetType="ComboBox">
+                            <Setter Property="IsEditable" Value="True"/>
+                            <Setter Property="ItemContainerStyle">
+                                <Setter.Value>
+                                    <Style TargetType="ComboBoxItem">
+                                        <Setter Property="FontStyle" Value="{Binding Style}"/>
+                                        <Setter Property="IsSelected" Value="{Binding IsSelected}"/>
+                                    </Style>
+                                </Setter.Value>
+                            </Setter>
+                            <Setter Property="ItemsSource" Value="{Binding Path=MyVM.ChildVMCollection,
+                                RelativeSource={RelativeSource Mode=FindAncestor,
+                                AncestorType={x:Type Window}}}"/>
+
+                            <EventSetter Event="PreviewKeyDown" Handler="ComboBox_PreviewKeyDown"/>
+                            <EventSetter Event="SelectionChanged" Handler="ComboBox_SelectionChanged"/>
+                        </Style>
+                    </DataGridComboBoxColumn.EditingElementStyle>
+                </DataGridComboBoxColumn>
+            </DataGrid.Columns>
+        </DataGrid>
+    </Grid>
+</Window>
